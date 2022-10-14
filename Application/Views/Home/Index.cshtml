@@ -1,19 +1,50 @@
 ﻿@using Microsoft.AspNetCore.Identity
+
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+@model Application.Models.ViewModels.UserViewModel 
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    @if (SignInManager.IsSignedIn(User))
+    
+@if (SignInManager.IsSignedIn(User))
 {
-        <p>не Ъуъ</p>
+    <h1>Users list</h1>
+    <form asp-action="Index" method="get">
+        <div>
+            <p>
+                Filter by <select name="chosenFilter" asp-for="Filter" asp-items="Model.Columns"></select>
+                <input type="text" name="searchString" value="@Model.SearchString" />
+                <input type="submit" value="Search" />
+                <a asp-action="Index">Full list</a>
+            </p>
+        </div>
+    </form>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Password Hash</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Users)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.PasswordHash)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
+    <h1 class="display-4">Welcome</h1>
     <p>Ъуъ</p>
 }
 </div>
