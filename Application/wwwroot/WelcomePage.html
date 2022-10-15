@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Register</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome</h1>
+        <button id="DeLog">DeLog</button>
+
+    </div>
+
+    <table>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script>
+        async function isSession() {
+            const response = await fetch("https://localhost:7249/api/Main/isSession", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            if (response.ok === true) {
+                if (await response.json() != true) {
+                    location.href = 'Index';
+                }
+            }
+            else {
+                location.href = 'Index';
+            }
+        }
+        isSession();
+        document.getElementById("DeLog").addEventListener("click", () => DeLog());
+
+        async function DeLog() {
+            const response = await fetch("https://localhost:7249/api/Main/DeSession", {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+            location.reload();
+        }
+    </script>
+</body>
+</html>
