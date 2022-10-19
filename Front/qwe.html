@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AverageAnimeEnjoyer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <script src="/func.js"></script>
+</head>
+<body>
+<div class="back_grd">
+    <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+            <button class="click-button" type="button" onclick="login()">LogIn</button>
+            <button class="click-button" type="button" onclick="register()">Register</button>
+        </div>
+        <form id="login" class="input-elem">
+            <label>
+                <input type="text" class="input-field" placeholder="Login" required>
+            </label>
+            <label>
+                <input type="password" class="input-field" placeholder="Password" name="password" required>
+                <span>
+                    <i class="fa fa-eye " id="font" onclick="togglePW()" aria-hidden="true"></i>
+                </span>
+            </label>
+            <button type="submit" class="submit-button">Submit</button>
+            <button type="reset" class="reset-button">Reset</button>
+            <div class="container">
+                <input type="checkbox" id="toggle-button" class="toggle-button">
+                <label for="toggle-button" class="text">SecurityLogin</label>
+            </div>
+        </form>
+        <form id="register" class="input-elem">
+            <label>
+                <input type="text" class="input-field" placeholder="Login" required>
+            </label>
+            <label>
+                <input type="email" class="input-field" placeholder="Email" required>
+            </label>
+            <label>
+                <input type="password" class="input-field" placeholder="Password" name="password_2" required>
+                <span>
+                    <i class="fa fa-eye " id="font_2" onclick="togglePW_2()" aria-hidden="true"></i>
+                </span>
+            </label>
+            <button type="submit" class="submit-button">Submit</button>
+            <button type="reset" class="reset-button">Reset</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const x = document.getElementById("login");
+    const y = document.getElementById("register");
+    const z = document.getElementById("btn");
+
+    function login() {
+        x.style.left = "50px";
+        y.style.left = "450px";
+        z.style.left = "0px";
+    }
+
+    function register() {
+        x.style.left = "-400px";
+        y.style.left = "50px";
+        z.style.left = "110px";
+    }
+</script>
+</body>
+</html>
