@@ -1,0 +1,172 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: cursive;
+}
+
+.back_grd {
+    background-image: url("img/doomer.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.form-box {
+    width: 380px;
+    height: 480px;
+    position: relative;
+    margin: 6% auto;
+    background-image: url("img/paradniy.jpg");
+    background-size: cover;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.button-box {
+    width: 220px;
+    margin: 35px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #ffffff;
+    border-radius: 30px;
+}
+
+.click-button {
+    padding: 10px 30px;
+    color: white;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    position: relative;
+
+}
+
+#btn {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 110px;
+    height: 100%;
+    background: linear-gradient(to right, #00FF7F, #00BFFF);
+    border-radius: 30px;
+    transition: .5s;
+}
+
+.input-elem {
+    top: 180px;
+    position: absolute;
+    width: 280px;
+    transition: .5s;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 1px solid #999;
+    outline: none;
+    background: transparent;
+    color: white;
+}
+
+.submit-button {
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: transparent;
+    border-radius: 30px;
+    outline: none;
+    color: white;
+    border: none;
+}
+
+.reset-button {
+    padding: 10px 30px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    background: transparent;
+    border-radius: 30px;
+    outline: none;
+    color: white;
+    border: none;
+}
+
+.reset-button:hover {
+
+    box-shadow: 0 4px 8px 0 white;
+}
+
+.submit-button:hover {
+
+    box-shadow: 0 4px 8px 0 white;
+}
+
+
+#login {
+    left: 50px;
+}
+
+#register {
+    left: 450px;
+}
+
+.toggle-button {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    margin: 0;
+    vertical-align: top;
+    background: white;
+    border: 1px solid #bbc1e1;
+    border-radius: 30px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: 0.3s;
+}
+
+.text {
+    color: navajowhite;
+    font-weight: bold;
+    font-size: 15px;
+    vertical-align: middle;
+}
+
+.toggle-button::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    left: 3px;
+    top: 1.5px;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    transform: translateX(0);
+    transition: 0.3s;
+}
+
+.toggle-button:checked::after {
+    transform: translateX(calc(100% + 3px));
+    background-color: #fff;
+}
+
+.toggle-button:checked {
+    background-color: black;
+}
+
+.fa {
+    font-size: 20px;
+    color: white;
+}
