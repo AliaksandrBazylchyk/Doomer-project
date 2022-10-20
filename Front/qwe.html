@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <script src="/func.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <div class="back_grd">
@@ -31,6 +32,11 @@
                 <input type="checkbox" id="toggle-button" class="toggle-button">
                 <label for="toggle-button" class="text">SecurityLogin</label>
             </div>
+            <div
+                class="g-recaptcha"
+                data-sitekey="6LdaYZkiAAAAACqWJ1NemO4vfgVZYUBke4DAA4FW"
+                data-callback="callback"
+            ></div>
         </form>
         <form id="register" class="input-elem">
             <label>
@@ -47,6 +53,11 @@
             </label>
             <button type="submit" class="submit-button">Submit</button>
             <button type="reset" class="reset-button">Reset</button>
+            <div
+                class="g-recaptcha"
+                data-sitekey="6LdaYZkiAAAAACqWJ1NemO4vfgVZYUBke4DAA4FW"
+                data-callback="callback"
+            ></div>
         </form>
     </div>
 </div>
