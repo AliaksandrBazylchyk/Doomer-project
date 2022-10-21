@@ -1,34 +1,47 @@
 using Application.Middlewares.ExceptionMiddlewareModels;
-using AspNetCore.ReCaptcha;
+using Application.Models;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
-namespace WebApplication13.Pages
+namespace Application.Pages
 {
-    [ValidateReCaptcha("index")]
     public class IndexModel : PageModel
     {
 
-        [BindProperty]
-        public string Login { get; set; }
+        private readonly ApplicationContext _db;
+        private readonly AuthService _authService;
 
-        [BindProperty]
-        public string Password { get; set; }
+        public UserRegisterModel registerModel { get; set; }
+        public UserLoginModel loginModel { get; set; }
+
+        public IndexModel(ApplicationContext db, AuthService authService)
+        {
+            _db = db;
+            _authService = authService;
+        }
 
         public void OnGet()
         {
         }
 
-        private readonly ApplicationContext _db;
-
-
-        public IndexModel(ApplicationContext db)
+        public async Task<IActionResult> OnPostRegister2(IFormCollection data)
         {
-            _db = db;
-        }
+            var model = new UserRegisterModel
+            {
+                Name = Request.Form["registerModel.Name"],
+                Password = Request.Form["registerModel.Password"],
+            };
 
+            if (model is null || model.Name is null || model.Password is null) throw new UserException("Wrong inserts");
+
+            var user = _authService.CreateUser(model);
+
+            var result = new OkObjectResult(user);
+
+            return result;
+            //return RedirectToPage();
+        }
     }
 }
 
