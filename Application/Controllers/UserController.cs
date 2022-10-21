@@ -37,7 +37,7 @@ public class UserController : ControllerBase
         var ifExist = await _db.Users.FirstOrDefaultAsync(u => u.Name == model.Name);
         if (ifExist is not null) throw new UserException("User already exist");
 
-        // Создаем
+        // Создаем юзера
         var user = await _authService.CreateUser(model);
 
         // Возвращаем
@@ -47,7 +47,7 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserLoginModel model)
     {
-        // Minimum eight characters, at least one letter, one number and one special character
+        // минимум 8 символов, 1 маленькая, 1 большая, символ, цифра
         Regex regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
         // НОрм ли данные пришли?
@@ -57,8 +57,10 @@ public class UserController : ControllerBase
         if (model.Name is null || model.Password is null) throw new UserException("Wrong inserts");
         if (!regex.IsMatch(model.Password)) throw new UserException("Wrong password insert");
 
+        // Логинимся и получаем токен, если логин удачный
         var userToken = await _authService.LoginUser(model);
 
+        // Отдаем токен
         return Ok(userToken);
     }
 }
