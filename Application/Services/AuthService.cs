@@ -1,6 +1,10 @@
 ﻿using Application.Middlewares.ExceptionMiddlewareModels;
 using Application.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -58,7 +62,7 @@ namespace Application.Services
             var saltHash = sha256(user.Salt);
             var hashed = $"{saltHash}{model.Password}";
             var newPasswHash = sha256(hashed);
-            
+
             // Если хэши не совпадают, то пробрасываем ошибку, которая отправляет в мидлвейр результат
             if (newPasswHash != user.Password) throw new SessionException("Wrong password");
 
@@ -75,6 +79,35 @@ namespace Application.Services
 
             return result;
         }
+
+        public async Task<Token> LoginUnsecuredUser(UserLoginModel model)
+        {
+            List<User> users = new List<User>();
+            var dt = new DataTable();
+
+            var sqlExpression = $"SELECT * FROM dbo.Users WHERE Name='{model.Name}' AND Password='{model.Password}';";
+            string connectionString = "Server=(localdb)\\mssqllocaldb;Database=application;Trusted_Connection=True;MultipleActiveResultSets=true";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
+                dt.Load(reader);
+                string json = JsonConvert.SerializeObject(dt);
+                users = JsonConvert.DeserializeObject<List<User>>(json);
+            }
+
+            var claims = await TokenService.GenerateUserClaims(users.ToArray()[0]);
+            var token = await _tokenService.GenerateToken(claims);
+
+            var result = new Token
+            {
+                AccessToken = token,
+            };
+
+            return result;
+        }
+
         private string GenerateSalt()
         {
             var randomNumber = new byte[32];

@@ -12,17 +12,23 @@ public class UserController : ControllerBase
 
     private readonly ApplicationContext _db;
     private readonly AuthService _authService;
-    public UserController(ApplicationContext db,
-        AuthService authService
+    private readonly ILogger<UserController> _logger;
+    public UserController(
+        ApplicationContext db,
+        AuthService authService,
+        ILogger<UserController> logger
         )
     {
         _db = db;
         _authService = authService;
+        _logger = logger;
     }
 
     [HttpPost("signup")]
     public async Task<IActionResult> SignUp(UserRegisterModel model)
     {
+        _logger.LogInformation($"New user with name {model.Name} try to sign up.");
+
         // Minimum eight characters, at least one letter, one number and one special character
         Regex regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
@@ -40,6 +46,7 @@ public class UserController : ControllerBase
         // Создаем юзера
         var user = await _authService.CreateUser(model);
 
+        _logger.LogInformation($"New user with name {model.Name} sign up successfuly.");
         // Возвращаем
         return Ok(user);
     }
@@ -47,6 +54,8 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(UserLoginModel model)
     {
+        _logger.LogInformation($"User {model.Name} try to secure login.");
+
         // минимум 8 символов, 1 маленькая, 1 большая, символ, цифра
         Regex regex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$");
 
@@ -59,6 +68,23 @@ public class UserController : ControllerBase
 
         // Логинимся и получаем токен, если логин удачный
         var userToken = await _authService.LoginUser(model);
+
+        _logger.LogInformation($"User {model.Name} login successfuly.");
+
+        // Отдаем токен
+        return Ok(userToken);
+    }
+
+    [HttpPost("login/unsecured")]
+    public async Task<IActionResult> UnsecuredLogin(UserLoginModel model)
+    {
+        _logger.LogInformation($"User {model.Name} try to unsecure login.");
+        // НОрм ли данные пришли?
+        if (model is null) return BadRequest("Smth going wrong");
+
+        var userToken = await _authService.LoginUnsecuredUser(model);
+
+        _logger.LogInformation($"User {model.Name} unsecure login successfuly.");
 
         // Отдаем токен
         return Ok(userToken);

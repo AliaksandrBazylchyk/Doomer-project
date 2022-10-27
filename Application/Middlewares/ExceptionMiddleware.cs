@@ -1,16 +1,22 @@
 ﻿using Application.Middlewares.ExceptionMiddlewareModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 
 namespace Application.Middlewares
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(
+            RequestDelegate next, 
+            ILogger<ExceptionMiddleware> logger
+            )
         {
             _next = next;
+            _logger = logger;
         }
         public async Task InvokeAsync(HttpContext httpContext)
         {
@@ -42,7 +48,7 @@ namespace Application.Middlewares
                     result.StatusCode = 400;
                     break;
             }
-
+            _logger.LogError(JsonConvert.SerializeObject(result));
             context.Response.StatusCode = result.StatusCode;
 
             await context.Response.WriteAsync(result.ToString());

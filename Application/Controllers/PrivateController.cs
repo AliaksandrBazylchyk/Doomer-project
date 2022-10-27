@@ -9,10 +9,17 @@ namespace Application.Controllers
     public class PrivateController : ControllerBase
     {
         [Authorize]
-        [HttpPost("auth/request")]
+        [HttpGet("auth/request")]
         public async Task<IActionResult> PrivateRequest()
         {
             return Ok("You are authorize");
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("auth/role/request/admin")]
+        public async Task<IActionResult> AdminRequest()
+        {
+            return Ok("You are admin!");
         }
     }
 }
